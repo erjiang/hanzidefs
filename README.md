@@ -36,3 +36,10 @@ This is useful for analyzing a document, perhaps to estimate its difficulty.
 Usage:
 
 `python3 hanzifreqs.py < yourtext.txt > yourfreqs.tsv`
+
+
+License
+=======
+
+This software is distributed under the terms of the Affero GPL v3 license,
+whose text can be found in the file `COPYING`.

@@ -1,8 +1,8 @@
 import collections
 import sys
 
-
-from CEDICT_Parser import parser, pinyin
+import cedict
+import pinyin
 
 
 usage = "Usage: python hanzidefs.py cedict_ts.u8 < inputtext.txt > outputdefs.tsv\n"
@@ -23,7 +23,7 @@ def def2field(definition):
     """Given a parsed definition object {hanzi: _, pinyin: _, def: _}, generate
     the formatted text field to show up in the output."""
     return """{pronounce}: {meaning}""".format(
-        pronounce=pinyin.convert(definition['pinyin']),
+        pronounce=pinyin.prettify(definition['pinyin']),
         meaning=definition['def'])
 
 
@@ -34,7 +34,8 @@ if __name__ == "__main__":
 
     sys.stderr.write("Parsing CEDICT...\n")
     sys.stderr.flush()
-    cedict = parser.read_file(sys.argv[1])
+    with open(sys.argv[1], 'r') as f:
+        cedict = cedict.parse_cedict(f)
 
     sys.stderr.write("Reading source text...\n")
     sys.stderr.flush()
