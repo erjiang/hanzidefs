@@ -5,7 +5,7 @@ import sys
 from CEDICT_Parser import parser, pinyin
 
 
-usage = "Usage: python hanzidefs.py cedict_ts.u8 inputtext.txt > outputdefs.tsv"
+usage = "Usage: python hanzidefs.py cedict_ts.u8 < inputtext.txt > outputdefs.tsv\n"
 
 
 def get_all_hanzi(txt):
@@ -16,7 +16,7 @@ def get_all_hanzi(txt):
     sys.stderr.write("%d uniq chars found\n" % len(counts))
 
     # return characters from most to least common
-    return [hz for hz, _ in counts.most_common()]
+    return counts.most_common()
 
 
 def def2field(definition):
@@ -28,7 +28,7 @@ def def2field(definition):
 
 
 if __name__ == "__main__":
-    if len(sys.argv) < 3:
+    if len(sys.argv) < 2:
         sys.stderr.write(usage)
         sys.exit(1)
 
@@ -38,12 +38,11 @@ if __name__ == "__main__":
 
     sys.stderr.write("Reading source text...\n")
     sys.stderr.flush()
-    with open(sys.argv[2], 'r') as f:
-        hanzi = get_all_hanzi(f.read())
+    hanzi = get_all_hanzi(sys.stdin.read())
 
     sys.stderr.write("Generating defs...\n")
     sys.stderr.flush()
-    for ch in hanzi:
+    for ch in [c for c, _ in hanzi]:
         defs = cedict[ch]
         def1 = def2 = def3 = ""
         if not defs:
