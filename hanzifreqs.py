@@ -1,4 +1,5 @@
 import sys
+import collections
 
 
 def get_all_hanzi(txt):
