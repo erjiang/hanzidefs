@@ -5,18 +5,17 @@ import cedict
 import pinyin
 
 
-usage = "Usage: python hanzidefs.py cedict_ts.u8 < inputtext.txt > outputdefs.tsv\n"
+"""
+This program takes a word list and prints out each word along with three
+definitions from the given dictionary.
+
+The wordlist should have each term on a separate line. If a TSV file is given,
+then the first field is assumed to be the term to look up.
+"""
 
 
-def get_all_hanzi(txt):
-    
-    # count all the characters in CJK range
-    counts = collections.Counter([c for c in txt if '\u4e00' <= c <= '\u9fff'])
-
-    sys.stderr.write("%d uniq chars found\n" % len(counts))
-
-    # return characters from most to least common
-    return counts.most_common()
+usage = "Usage: python hanzidefs.py cedict_ts.u8 < wordlist.tsv > outputdefs.tsv\n"
+usage += "Usage: python hanzifreqs.py < inputtext.txt | python hanzidefs.py cedict_ts.u8\n"
 
 
 def def2field(definition):
@@ -37,13 +36,10 @@ if __name__ == "__main__":
     with open(sys.argv[1], 'r') as f:
         cedict = cedict.parse_cedict(f)
 
-    sys.stderr.write("Reading source text...\n")
-    sys.stderr.flush()
-    hanzi = get_all_hanzi(sys.stdin.read())
-
     sys.stderr.write("Generating defs...\n")
     sys.stderr.flush()
-    for ch in [c for c, _ in hanzi]:
+    for l in sys.stdin.readlines():
+        ch = l.partition("\t")[0]
         defs = cedict[ch]
         def1 = def2 = def3 = ""
         if not defs:

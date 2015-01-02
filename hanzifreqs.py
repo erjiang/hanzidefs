@@ -1,6 +1,16 @@
 import sys
 
-from hanzidefs import get_all_hanzi
+
+def get_all_hanzi(txt):
+
+    # count all the characters in CJK range
+    counts = collections.Counter([c for c in txt if '\u4e00' <= c <= '\u9fff'])
+
+    sys.stderr.write("%d uniq chars found\n" % len(counts))
+
+    # return characters from most to least common
+    return counts.most_common()
+
 
 if __name__ == "__main__":
 
