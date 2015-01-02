@@ -48,6 +48,7 @@ def segment(txt, dic):
             curr_word = candidate
         else:
             end_of_word()
+            curr_word = c
 
     return sentences
 
