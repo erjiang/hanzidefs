@@ -40,6 +40,16 @@ term along with up to 3 readings/definitions for that term.
 
 This is useful for generating cards for flashcard software such as Anki.
 
+
+guessenc.py
+===========
+
+Also included is a utility to guess the encoding of a text file between UTF-8,
+GB18030, and Big5. The strategy is pretty naive: look for encodings of a short
+list of common characters in each encoding scheme, and pick whichever had the
+most found occurrences. The output will be 'utf8', 'gb18030', or 'big5'.
+
+
 Instructions
 ------------
 
